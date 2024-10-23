@@ -14,7 +14,7 @@ const app = express();
 
 const __dirname = path.resolve()
 
-const allowedOrigins = ['http://localhost:5173', 'https://marketplace-backend-8442.onrender.com', 'https://marketplace-frontend-cp5m.onrender.com'];
+const allowedOrigins = ['http://localhost:5173', 'https://marketplace-frontend-cp5m.onrender.com'];
 
 app.use(cors({
   origin: allowedOrigins,
