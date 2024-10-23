@@ -37,15 +37,17 @@ export const signin = async (req, res, next) => {
         const { password: pass, ...rest } = user._doc;
 
         res.cookie('access_token', token, {
-            httpOnly: true, // Keep this if you want to prevent client-side JavaScript access
-            secure: process.env.NODE_ENV === 'production', // Only set `secure` in production (for HTTPS)
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-          })
+            httpOnly: true, // Prevents client-side JavaScript access, recommended for security
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+            sameSite: 'none', // Required if your frontend and backend are on different domains
+            secure: true,// Only set `secure` when in production (over HTTPS)
+        })
             .status(200)
             .json(rest);
-          
-          console.log('User authenticated successfully', user);
-          
+
+        console.log('User authenticated successfully', user);
+
+
     } catch (error) {
         next(error);
     }
@@ -82,10 +84,10 @@ export const google = async (req, res, next) => {
 
 
             res.cookie('access_token', token, {
-                httpOnly: true, // Prevents JavaScript access to the cookie
-                secure: process.env.NODE_ENV === 'production', // Use secure cookies in production (HTTPS only)
-                sameSite: 'lax', // Controls if cookies should be sent with cross-origin requests
-                maxAge: 24 * 60 * 60 * 1000 // Cookie expiry in milliseconds (e.g., 1 day)
+                httpOnly: true, // Prevents client-side JavaScript access, recommended for security
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                sameSite: 'none', // Required if your frontend and backend are on different domains
+                secure: true,// Only set `secure` when in production (over HTTPS)
             })
                 .status(200)
                 .json(rest);
